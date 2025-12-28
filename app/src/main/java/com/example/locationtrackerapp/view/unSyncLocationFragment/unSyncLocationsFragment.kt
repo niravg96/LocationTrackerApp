@@ -80,20 +80,24 @@ class unSyncLocationsFragment : BaseFragment() {
             val dbRef = FirebaseDatabase.getInstance().getReference(listOfUserLocations.get(locationAtPosition).userName)
 
             dbRef.addValueEventListener(object : ValueEventListener {
+
                 override fun onDataChange(snapshot: DataSnapshot) {
                     dbRef.setValue(locationInfo)
 
                      // Deleting 1 location details from specific location using userId
                      if(listOfUserLocations.size != 0)
+
                         userLocationDao.deleteLocationById(listOfUserLocations.get(locationAtPosition).userId)
 
                         if(listOfUserLocations.size - 1 == locationAtPosition){
+
                             Toast.makeText(requireActivity(), getString(R.string.all_locations_synced_successfully), Toast.LENGTH_SHORT).show()
                             getAllLocation()
                         }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
+
                     Toast.makeText(requireActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
                 }
             })
