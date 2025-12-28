@@ -53,6 +53,7 @@ class UserLocationActivity : baseActivity()  , View.OnClickListener  {
 
         // add the fragments
         viewPagerAdapter!!.add(submitLocationFragment(), getString(R.string.user_logs))
+
         viewPagerAdapter!!.add(unSyncLocationsFragment(), getString(R.string.unsync_logs))
 
         // Set the adapter
