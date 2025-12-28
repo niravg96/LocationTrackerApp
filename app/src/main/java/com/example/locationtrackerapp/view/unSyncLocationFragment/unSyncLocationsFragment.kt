@@ -82,6 +82,7 @@ class unSyncLocationsFragment : BaseFragment() {
             dbRef.addValueEventListener(object : ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
+
                     dbRef.setValue(locationInfo)
 
                      // Deleting 1 location details from specific location using userId
@@ -92,6 +93,7 @@ class unSyncLocationsFragment : BaseFragment() {
                         if(listOfUserLocations.size - 1 == locationAtPosition){
 
                             Toast.makeText(requireActivity(), getString(R.string.all_locations_synced_successfully), Toast.LENGTH_SHORT).show()
+
                             getAllLocation()
                         }
                 }
@@ -112,20 +114,26 @@ class unSyncLocationsFragment : BaseFragment() {
     }
 
     private fun getAllLocation() {
+
         val db = Room.databaseBuilder(requireActivity(), UserLocationDatabase::class.java,DATABASE_NAME).allowMainThreadQueries().build()
+
         userLocationDao = db.userLocationDetails()
 
         listOfUserLocations  = userLocationDao.getAllLocationDetails()
 
         binding.unSyncLocationsRV.layoutManager = LinearLayoutManager(requireContext())
+
         binding.unSyncLocationsRV.adapter = unSyncLocationsAdapter(listOfUserLocations)
 
         if(listOfUserLocations.size == 0){
+
             binding.onDataFoundTxt.visibility = View.VISIBLE
+
             binding.unSyncLocationsRV.visibility = View.GONE
         }
         else{
             binding.onDataFoundTxt.visibility = View.GONE
+
             binding.unSyncLocationsRV.visibility = View.VISIBLE
         }
     }
