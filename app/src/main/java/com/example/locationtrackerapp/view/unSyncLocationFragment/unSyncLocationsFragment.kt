@@ -58,8 +58,8 @@ class unSyncLocationsFragment : BaseFragment() {
 
         if(status){
 
-            Toast.makeText(requireActivity(),
-                getString(R.string.internet_is_connected), Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity(), getString(R.string.internet_is_connected), Toast.LENGTH_SHORT).show()
+
                 if(listOfUserLocations.size > 0)
                     saveLocationsOnCloud()
         }
@@ -77,6 +77,7 @@ class unSyncLocationsFragment : BaseFragment() {
         for(locationAtPosition in listOfUserLocations.indices){
 
             val locationInfo = LocationInfo(listOfUserLocations.get(locationAtPosition).latitude,listOfUserLocations.get(locationAtPosition).longtitude,listOfUserLocations.get(locationAtPosition).accurancy,listOfUserLocations.get(locationAtPosition).timeStamp,listOfUserLocations.get(locationAtPosition).speed)
+
             val dbRef = FirebaseDatabase.getInstance().getReference(listOfUserLocations.get(locationAtPosition).userName)
 
             dbRef.addValueEventListener(object : ValueEventListener {
@@ -107,6 +108,7 @@ class unSyncLocationsFragment : BaseFragment() {
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+
         super.setUserVisibleHint(isVisibleToUser)
 
         if(isVisibleToUser)

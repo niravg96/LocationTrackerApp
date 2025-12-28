@@ -30,6 +30,7 @@ class submitLocationFragment : BaseFragment(), View.OnClickListener {
     private lateinit var binding:FragmentSubmitLocationBinding
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     private val LOCATION_PERMISSION_REQUEST = 100
 
     private val DATABASE_NAME :String = "USER_DATABASE"
@@ -59,6 +60,7 @@ class submitLocationFragment : BaseFragment(), View.OnClickListener {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         binding.getLocationBtn.setOnClickListener(this)
+
         binding.saveLocationBtn.setOnClickListener(this)
     }
 
@@ -88,6 +90,7 @@ class submitLocationFragment : BaseFragment(), View.OnClickListener {
                     var userName = binding.userNameEdt.text.toString().trim()
 
                     val locationInfo = LocationInfo(lat,lon,accuracy,timeStamp,speed)
+
                     val dbRef = FirebaseDatabase.getInstance().getReference(userName)
 
                     dbRef.addValueEventListener(object : ValueEventListener {
@@ -96,13 +99,16 @@ class submitLocationFragment : BaseFragment(), View.OnClickListener {
                             Toast.makeText(requireActivity(),
                                 getString(R.string.data_saved_successfully),Toast.LENGTH_SHORT).show()
                             binding.userNameEdt.setText("")
+
                             binding.fetchLocationTxt.setText("--")
+
                             binding.progressBar.visibility = View.GONE
 
                         }
 
                         override fun onCancelled(error: DatabaseError) {
                             Toast.makeText(requireActivity(),getString(R.string.something_went_wrong),Toast.LENGTH_SHORT).show()
+
                             binding.progressBar.visibility = View.GONE
                         }
                     })
@@ -162,7 +168,9 @@ class submitLocationFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun insertLocationDetailsLocally() {
+
         val db = Room.databaseBuilder(requireActivity(), UserLocationDatabase::class.java,DATABASE_NAME).allowMainThreadQueries().build()
+
         val userLocationDao = db.userLocationDetails()
 
         userLocationDao.insertLocations(UserLocationDetails(binding.userNameEdt.text.toString().trim(),lat,lon,accuracy,timeStamp,speed))
@@ -170,9 +178,11 @@ class submitLocationFragment : BaseFragment(), View.OnClickListener {
         Toast.makeText(requireActivity(),
             getString(R.string.data_stored_successfully),Toast.LENGTH_SHORT).show()
         binding.userNameEdt.setText("")
+
         binding.fetchLocationTxt.setText("--")
     }
     fun isNetworkAvailable(context: Context): Boolean {
+
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo = connectivityManager.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
